@@ -20,6 +20,20 @@ public class Applicant {
         this.desiredSalary = ApplicantValidator.requireSalary(desiredSalary);
     }
 
+    public Applicant(String rawData) {
+        String[] parts = rawData.split(";");
+        if (parts.length != 7) {
+            throw new IllegalArgumentException("Ожидается 7 полей, разделенных ';'");
+        }
+        this.lastName = ApplicantValidator.requireName(parts[0], "Фамилия");
+        this.firstName = ApplicantValidator.requireName(parts[1], "Имя");
+        this.middleName = parts[2].trim();
+        this.qualification = parts[3].trim();
+        this.profession = ApplicantValidator.requireName(parts[4], "Профессия");
+        this.phone = ApplicantValidator.requirePhone(parts[5]);
+        this.desiredSalary = ApplicantValidator.requireSalary(Double.parseDouble(parts[6]));
+    }
+
     public String getLastName() { return lastName; }
     public String getFirstName() { return firstName; }
     public String getMiddleName() { return middleName; }
