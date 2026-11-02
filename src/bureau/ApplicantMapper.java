@@ -18,6 +18,15 @@ public final class ApplicantMapper {
         return result;
     }
 
+    public static void update(Applicant applicant, ApplicantShort shortClient) {
+        if (applicant == null || shortClient == null) throw new IllegalArgumentException("null arguments");
+        String shortFio = abbreviateName(applicant.getLastName(), applicant.getFirstName(), applicant.getMiddleName());
+
+        shortClient.setShortFio(shortFio);
+        shortClient.setProfession(applicant.getProfession());
+        shortClient.setDesiredSalary(applicant.getDesiredSalary());
+    }
+
     private static String abbreviateName(String lastName, String firstName, String middleName) {
         StringBuilder sb = new StringBuilder(lastName).append(" ");
         sb.append(firstName.charAt(0)).append(".");
