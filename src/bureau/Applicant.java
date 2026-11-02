@@ -1,5 +1,7 @@
 package bureau;
 
+import java.util.Objects;
+
 public class Applicant {
     private String lastName;
     private String firstName;
@@ -49,4 +51,30 @@ public class Applicant {
     public void setProfession(String profession) { this.profession = ApplicantValidator.requireName(profession, "Профессия"); }
     public void setPhone(String phone) { this.phone = ApplicantValidator.requirePhone(phone); }
     public void setDesiredSalary(double desiredSalary) { this.desiredSalary = ApplicantValidator.requireSalary(desiredSalary); }
+
+    public String getFullName() {
+        return lastName + " " + firstName + (middleName.isEmpty() ? "" : " " + middleName);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Applicant{ФИО='%s', квалификация='%s', профессия='%s', телефон='%s', зарплата=%.0f}",
+                getFullName(), qualification, profession, phone, desiredSalary);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Applicant applicant = (Applicant) o;
+        return Double.compare(applicant.desiredSalary, desiredSalary) == 0 &&
+                Objects.equals(getFullName(), applicant.getFullName()) &&
+                Objects.equals(profession, applicant.profession) &&
+                Objects.equals(phone, applicant.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFullName(), profession, phone, desiredSalary);
+    }
 }
